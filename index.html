@@ -167,6 +167,29 @@
             text-transform: uppercase;
         }
 
+        /* OS Switcher inside Setup */
+        .os-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--border);
+        }
+        .os-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid transparent;
+            border-bottom: none;
+        }
+        .os-tab.active {
+            background: var(--c3);
+            border: 3px solid var(--border);
+            border-bottom: none;
+            margin-bottom: -3px;
+            background: #fff;
+        }
+        .os-content { display: none; }
+        .os-content.active { display: block; }
+
         /* Interview Section Specifics */
         .qa-box {
             border: 3px solid var(--border);
@@ -233,18 +256,100 @@
 <div class="container">
     <header>
         <h1>MySQL Zero to Hero</h1>
-        <p style="font-family: var(--font-mono); font-weight: bold;">Quick Reference and for interview</p>
+        <p style="font-family: var(--font-mono); font-weight: bold;">NEO-BRUTALIST EDITION</p>
     </header>
 
     <nav class="nav-bar">
-        <button class="nav-btn active" onclick="showSection('basics', this)">Basics & Setup</button>
+        <button class="nav-btn active" onclick="showSection('intro', this)">Introduction & Setup</button>
+        <button class="nav-btn" onclick="showSection('basics', this)">Commands & Syntax</button>
         <button class="nav-btn" onclick="showSection('intermediate', this)">Intermediate</button>
         <button class="nav-btn" onclick="showSection('advanced', this)">Advanced & Optimization</button>
         <button class="nav-btn" onclick="showSection('interview', this)">Interview Q&A</button>
     </nav>
 
+    <!-- SECTION 0: INTRODUCTION -->
+    <div id="intro" class="page-section active-section">
+        <div class="grid">
+            <div class="card purple" style="grid-column: 1 / -1;">
+                <div class="card-header">WHAT IS MYSQL?</div>
+                <div class="card-body">
+                    <p>MySQL is the world's most popular open-source relational database management system (RDBMS). It organizes data into tables (rows and columns) and uses Structured Query Language (SQL) to access it.</p>
+                    <p><strong>Key Concepts:</strong></p>
+                    <ul>
+                        <li><strong>Database:</strong> A container for tables.</li>
+                        <li><strong>Table:</strong> A collection of related data (like a spreadsheet).</li>
+                        <li><strong>Row (Record):</strong> A single entry of data.</li>
+                        <li><strong>Column (Field):</strong> A specific attribute of the data.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    INSTALLATION
+                    <span class="tag">SETUP</span>
+                </div>
+                <div class="card-body">
+                    <div class="os-tabs">
+                        <div class="os-tab active" onclick="switchOs('mac', this)">MacOS</div>
+                        <div class="os-tab" onclick="switchOs('win', this)">Windows</div>
+                        <div class="os-tab" onclick="switchOs('linux', this)">Linux</div>
+                    </div>
+
+                    <div id="mac" class="os-content active">
+                        <h3>Option 1: Homebrew (Recommended)</h3>
+                        <pre><code>brew install mysql
+brew services start mysql
+mysql_secure_installation</code></pre>
+                        <h3>Option 2: DMG Installer</h3>
+                        <p>Download from <a href="https://dev.mysql.com/downloads/mysql/" target="_blank">mysql.com</a>. Follow the wizard. Remember the root password!</p>
+                    </div>
+
+                    <div id="win" class="os-content">
+                        <h3>MySQL Installer (MSI)</h3>
+                        <ol>
+                            <li>Download the <strong>MySQL Installer</strong> from mysql.com.</li>
+                            <li>Run it and choose <strong>"Developer Default"</strong>.</li>
+                            <li>This installs MySQL Server, Workbench, and Shell.</li>
+                            <li>Follow the config wizard. <strong>Write down your root password!</strong></li>
+                        </ol>
+                    </div>
+
+                    <div id="linux" class="os-content">
+                        <h3>Ubuntu / Debian</h3>
+                        <pre><code>sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+# Check status
+systemctl status mysql</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    WORKBENCH SETUP
+                    <span class="tag">GUI</span>
+                </div>
+                <div class="card-body">
+                    <h3>Connecting to your Database</h3>
+                    <p>MySQL Workbench is a visual tool to manage your DB without typing CLI commands all day.</p>
+                    <ol>
+                        <li>Open MySQL Workbench.</li>
+                        <li>Click the <strong>(+)</strong> icon next to "MySQL Connections".</li>
+                        <li><strong>Connection Name:</strong> Localhost</li>
+                        <li><strong>Hostname:</strong> 127.0.0.1 (default)</li>
+                        <li><strong>Port:</strong> 3306 (default)</li>
+                        <li><strong>Username:</strong> root</li>
+                        <li>Click <strong>"Test Connection"</strong> and enter password.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SECTION 1: BASICS -->
-    <div id="basics" class="page-section active-section">
+    <div id="basics" class="page-section">
         <div class="grid">
             <div class="card danger">
                 <div class="card-header">
@@ -524,6 +629,22 @@ ORDER BY salary DESC LIMIT 1 OFFSET 1;</code></pre>
             const activeBtn = btns.find(b => b.getAttribute('onclick').includes(sectionId));
             if(activeBtn) activeBtn.classList.add('active');
         }
+    }
+
+    function switchOs(osId, tabElement) {
+        // Hide all OS content
+        document.querySelectorAll('.os-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Deactivate all tabs
+        document.querySelectorAll('.os-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show selected OS
+        document.getElementById(osId).classList.add('active');
+        if (tabElement) tabElement.classList.add('active');
     }
 
     function toggleQa(element) {
