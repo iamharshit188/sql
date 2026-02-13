@@ -1,377 +1,526 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MySQL Ultimate Guide: Neo-Brutalist</title>
-    <style>
-        /* Neo-Brutalism CSS Variables */
-        :root {
-            --bg: #E0E7FF;
-            --text: #050505;
-            --border: #000000;
-            --shadow: #000000;
-            --c1: #FF6B6B; /* Red */
-            --c2: #4ECDC4; /* Teal */
-            --c3: #FFE66D; /* Yellow */
-            --c4: #9747FF; /* Purple */
-            --c5: #F7FFF7; /* Whiteish */
-            --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --font-mono: 'Courier New', Courier, monospace;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MySQL Ultimate Guide: Neo-Brutalist</title>
+        <style>
+            /* Neo-Brutalism CSS Variables */
+            :root {
+                --bg: #e0e7ff;
+                --text: #050505;
+                --border: #000000;
+                --shadow: #000000;
+                --c1: #ff6b6b; /* Red */
+                --c2: #4ecdc4; /* Teal */
+                --c3: #ffe66d; /* Yellow */
+                --c4: #9747ff; /* Purple */
+                --c5: #f7fff7; /* Whiteish */
+                --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                --font-mono: "Courier New", Courier, monospace;
+            }
 
-        * { box-sizing: border-box; }
+            * {
+                box-sizing: border-box;
+            }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: var(--font-main);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+            body {
+                background-color: var(--bg);
+                color: var(--text);
+                font-family: var(--font-main);
+                margin: 0;
+                padding: 20px;
+                line-height: 1.6;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            flex-grow: 1;
-        }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+                flex-grow: 1;
+            }
 
-        /* Header */
-        header {
-            background-color: var(--c3);
-            border: 4px solid var(--border);
-            box-shadow: 8px 8px 0px 0px var(--shadow);
-            padding: 30px;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
+            /* Header */
+            header {
+                background-color: var(--c3);
+                border: 4px solid var(--border);
+                box-shadow: 8px 8px 0px 0px var(--shadow);
+                padding: 30px;
+                margin-bottom: 40px;
+                text-align: center;
+                position: relative;
+            }
 
-        h1 {
-            font-size: 3rem;
-            margin: 0;
-            text-transform: uppercase;
-            font-weight: 900;
-            letter-spacing: -2px;
-        }
+            h1 {
+                font-size: 3rem;
+                margin: 0;
+                text-transform: uppercase;
+                font-weight: 900;
+                letter-spacing: -2px;
+            }
 
-        /* Navigation */
-        .nav-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 40px;
-            justify-content: center;
-        }
+            /* Navigation */
+            .nav-bar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 40px;
+                justify-content: center;
+            }
 
-        .nav-btn {
-            background: var(--c5);
-            border: 3px solid var(--border);
-            padding: 15px 30px;
-            font-weight: 900;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 5px 5px 0px 0px var(--shadow);
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
+            .nav-btn {
+                background: var(--c5);
+                border: 3px solid var(--border);
+                padding: 15px 30px;
+                font-weight: 900;
+                font-size: 1.1rem;
+                cursor: pointer;
+                box-shadow: 5px 5px 0px 0px var(--shadow);
+                transition: all 0.2s;
+                text-transform: uppercase;
+            }
 
-        .nav-btn:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px 0px var(--shadow);
-            background: var(--c2);
-        }
+            .nav-btn:hover {
+                transform: translate(-2px, -2px);
+                box-shadow: 7px 7px 0px 0px var(--shadow);
+                background: var(--c2);
+            }
 
-        .nav-btn.active {
-            background: var(--c4);
-            color: white;
-            box-shadow: 2px 2px 0px 0px var(--shadow);
-            transform: translate(3px, 3px);
-        }
+            .nav-btn.active {
+                background: var(--c4);
+                color: white;
+                box-shadow: 2px 2px 0px 0px var(--shadow);
+                transform: translate(3px, 3px);
+            }
 
-        .coffee-btn {
-            background-color: #FFDD00; /* BMS Yellow */
-            text-decoration: none;
-            color: var(--text);
-            display: inline-block;
-        }
-        
-        .coffee-btn:hover {
-            background-color: #FFEA61;
-        }
+            .coffee-btn {
+                background-color: #ffdd00; /* BMS Yellow */
+                text-decoration: none;
+                color: var(--text);
+                display: inline-block;
+            }
 
-        /* Content Sections */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-        
-        .page-section.active-section {
-            display: block;
-        }
+            .coffee-btn:hover {
+                background-color: #ffea61;
+            }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+            .chai-btn {
+                background-color: #263238;
+                color: white;
+                text-decoration: none;
+            }
+            .chai-btn:hover {
+                background-color: #37474f;
+                color: #fff;
+            }
 
-        /* Grid & Cards */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
+            /* Content Sections */
+            .page-section {
+                display: none;
+                animation: fadeIn 0.3s ease-in;
+            }
 
-        .card {
-            background-color: var(--c5);
-            border: 4px solid var(--border);
-            box-shadow: 8px 8px 0px 0px var(--shadow);
-            display: flex;
-            flex-direction: column;
-        }
+            .page-section.active-section {
+                display: block;
+            }
 
-        .card-header {
-            background-color: var(--c2);
-            border-bottom: 4px solid var(--border);
-            padding: 15px 20px;
-            font-weight: 900;
-            font-size: 1.4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
-        .card-body { padding: 20px; }
+            /* Grid & Cards */
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
 
-        .card.danger .card-header { background-color: var(--c1); color: white; }
-        .card.purple .card-header { background-color: var(--c4); color: white; }
+            .card {
+                background-color: var(--c5);
+                border: 4px solid var(--border);
+                box-shadow: 8px 8px 0px 0px var(--shadow);
+                display: flex;
+                flex-direction: column;
+            }
 
-        /* Typography & Code */
-        h3 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            border-left: 5px solid var(--border);
-            padding-left: 10px;
-        }
+            .card-header {
+                background-color: var(--c2);
+                border-bottom: 4px solid var(--border);
+                padding: 15px 20px;
+                font-weight: 900;
+                font-size: 1.4rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        pre {
-            background-color: #1a1a1a;
-            color: #00ff00;
-            border: 3px solid var(--border);
-            padding: 15px;
-            overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.2);
-        }
+            .card-body {
+                padding: 20px;
+            }
 
-        .tag {
-            font-size: 0.8rem;
-            background: #000;
-            color: #fff;
-            padding: 4px 8px;
-            text-transform: uppercase;
-        }
+            .card.danger .card-header {
+                background-color: var(--c1);
+                color: white;
+            }
+            .card.purple .card-header {
+                background-color: var(--c4);
+                color: white;
+            }
 
-        /* OS Switcher inside Setup */
-        .os-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--border);
-        }
-        .os-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            font-weight: bold;
-            border: 2px solid transparent;
-            border-bottom: none;
-        }
-        .os-tab.active {
-            background: var(--c3);
-            border: 3px solid var(--border);
-            border-bottom: none;
-            margin-bottom: -3px;
-            background: #fff;
-        }
-        .os-content { display: none; }
-        .os-content.active { display: block; }
+            /* Typography & Code */
+            h3 {
+                margin-top: 0;
+                font-size: 1.2rem;
+                border-left: 5px solid var(--border);
+                padding-left: 10px;
+            }
 
-        /* Interview Section Specifics */
-        .qa-box {
-            border: 3px solid var(--border);
-            margin-bottom: 20px;
-            background: #fff;
-        }
-        .qa-q {
-            background: var(--text);
-            color: #fff;
-            padding: 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-        }
-        .qa-a {
-            padding: 20px;
-            display: none;
-            border-top: 3px solid var(--border);
-        }
-        .qa-q:hover { background: #333; }
-        .qa-q::after { content: '+'; }
-        .qa-box.open .qa-q::after { content: '-'; }
-        .qa-box.open .qa-a { display: block; }
+            pre {
+                background-color: #1a1a1a;
+                color: #00ff00;
+                border: 3px solid var(--border);
+                padding: 15px;
+                overflow-x: auto;
+                font-family: var(--font-mono);
+                font-size: 0.9rem;
+                box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.2);
+            }
 
-        /* Footer */
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            padding: 30px;
-            border-top: 4px solid var(--border);
-            background: var(--c5);
-        }
-        
-        .heart-link {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 900;
-            font-size: 1.2rem;
-            display: inline-block;
-            transition: transform 0.2s;
-            border: 2px solid transparent;
-            padding: 10px;
-        }
-        
-        .heart-link:hover {
-            transform: scale(1.1) rotate(2deg);
-            background: var(--c1);
-            color: white;
-            border: 2px solid var(--border);
-            box-shadow: 4px 4px 0px var(--border);
-        }
+            .tag {
+                font-size: 0.8rem;
+                background: #000;
+                color: #fff;
+                padding: 4px 8px;
+                text-transform: uppercase;
+            }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
-            .nav-btn { width: 100%; }
-        }
-    </style>
-</head>
-<body>
+            /* OS Switcher inside Setup */
+            .os-tabs {
+                display: flex;
+                margin-bottom: 20px;
+                border-bottom: 3px solid var(--border);
+            }
+            .os-tab {
+                padding: 10px 20px;
+                cursor: pointer;
+                font-weight: bold;
+                border: 2px solid transparent;
+                border-bottom: none;
+            }
+            .os-tab.active {
+                background: var(--c3);
+                border: 3px solid var(--border);
+                border-bottom: none;
+                margin-bottom: -3px;
+                background: #fff;
+            }
+            .os-content {
+                display: none;
+            }
+            .os-content.active {
+                display: block;
+            }
 
-<div class="container">
-    <header>
-        <h1>MySQL Zero to Hero</h1>
-        <p style="font-family: var(--font-mono); font-weight: bold;">NEO-BRUTALIST EDITION</p>
-    </header>
+            /* Interview Section Specifics */
+            .qa-box {
+                border: 3px solid var(--border);
+                margin-bottom: 20px;
+                background: #fff;
+            }
+            .qa-q {
+                background: var(--text);
+                color: #fff;
+                padding: 15px;
+                font-weight: bold;
+                font-size: 1.1rem;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+            }
+            .qa-a {
+                padding: 20px;
+                display: none;
+                border-top: 3px solid var(--border);
+            }
+            .qa-q:hover {
+                background: #333;
+            }
+            .qa-q::after {
+                content: "+";
+            }
+            .qa-box.open .qa-q::after {
+                content: "-";
+            }
+            .qa-box.open .qa-a {
+                display: block;
+            }
 
-    <nav class="nav-bar">
-        <button class="nav-btn active" onclick="showSection('intro', this)">Introduction & Setup</button>
-        <button class="nav-btn" onclick="showSection('basics', this)">Commands & Syntax</button>
-        <button class="nav-btn" onclick="showSection('intermediate', this)">Intermediate</button>
-        <button class="nav-btn" onclick="showSection('advanced', this)">Advanced & Optimization</button>
-        <button class="nav-btn" onclick="showSection('interview', this)">Interview Q&A</button>
-        <a href="https://buymeacoffee.com/iamharshit188" target="_blank" class="nav-btn coffee-btn">☕ Buy me a Coffee</a>
-    </nav>
+            /* Footer */
+            footer {
+                margin-top: 60px;
+                text-align: center;
+                padding: 30px;
+                border-top: 4px solid var(--border);
+                background: var(--c5);
+            }
 
-    <!-- SECTION 0: INTRODUCTION -->
-    <div id="intro" class="page-section active-section">
-        <div class="grid">
-            <div class="card purple" style="grid-column: 1 / -1;">
-                <div class="card-header">WHAT IS MYSQL?</div>
-                <div class="card-body">
-                    <p>MySQL is the world's most popular open-source relational database management system (RDBMS). It organizes data into tables (rows and columns) and uses Structured Query Language (SQL) to access it.</p>
-                    <p><strong>Key Concepts:</strong></p>
-                    <ul>
-                        <li><strong>Database:</strong> A container for tables.</li>
-                        <li><strong>Table:</strong> A collection of related data (like a spreadsheet).</li>
-                        <li><strong>Row (Record):</strong> A single entry of data.</li>
-                        <li><strong>Column (Field):</strong> A specific attribute of the data.</li>
-                    </ul>
-                </div>
-            </div>
+            .heart-link {
+                text-decoration: none;
+                color: var(--text);
+                font-weight: 900;
+                font-size: 1.2rem;
+                display: inline-block;
+                transition: transform 0.2s;
+                border: 2px solid transparent;
+                padding: 10px;
+            }
 
-            <div class="card">
-                <div class="card-header">
-                    INSTALLATION
-                    <span class="tag">SETUP</span>
-                </div>
-                <div class="card-body">
-                    <div class="os-tabs">
-                        <div class="os-tab active" onclick="switchOs('mac', this)">MacOS</div>
-                        <div class="os-tab" onclick="switchOs('win', this)">Windows</div>
-                        <div class="os-tab" onclick="switchOs('linux', this)">Linux</div>
+            .heart-link:hover {
+                transform: scale(1.1) rotate(2deg);
+                background: var(--c1);
+                color: white;
+                border: 2px solid var(--border);
+                box-shadow: 4px 4px 0px var(--border);
+            }
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2rem;
+                }
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+                .nav-btn {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>MySQL Zero to Hero</h1>
+                <p style="font-family: var(--font-mono); font-weight: bold">
+                    NEO-BRUTALIST EDITION
+                </p>
+            </header>
+
+            <nav class="nav-bar">
+                <button
+                    class="nav-btn active"
+                    onclick="showSection('intro', this)"
+                >
+                    Introduction & Setup
+                </button>
+                <button class="nav-btn" onclick="showSection('basics', this)">
+                    Commands & Syntax
+                </button>
+                <button
+                    class="nav-btn"
+                    onclick="showSection('intermediate', this)"
+                >
+                    Intermediate
+                </button>
+                <button class="nav-btn" onclick="showSection('advanced', this)">
+                    Advanced & Optimization
+                </button>
+                <button
+                    class="nav-btn"
+                    onclick="showSection('interview', this)"
+                >
+                    Interview Q&A
+                </button>
+                <a
+                    href="https://buymeacoffee.com/iamharshit188"
+                    target="_blank"
+                    class="nav-btn coffee-btn"
+                    >☕ Buy me a Coffee</a
+                >
+                <a
+                    href="upi://pay?pa=tech.harshit.tiwari@okhdfcbank&pn=Harshit%20Tiwari&cu=INR"
+                    class="nav-btn chai-btn"
+                    >☕ Buy me a Chai (UPI)</a
+                >
+            </nav>
+
+            <!-- SECTION 0: INTRODUCTION -->
+            <div id="intro" class="page-section active-section">
+                <div class="grid">
+                    <div class="card purple" style="grid-column: 1 / -1">
+                        <div class="card-header">WHAT IS MYSQL?</div>
+                        <div class="card-body">
+                            <p>
+                                MySQL is the world's most popular open-source
+                                relational database management system (RDBMS).
+                                It organizes data into tables (rows and columns)
+                                and uses Structured Query Language (SQL) to
+                                access it.
+                            </p>
+                            <p><strong>Key Concepts:</strong></p>
+                            <ul>
+                                <li>
+                                    <strong>Database:</strong> A container for
+                                    tables.
+                                </li>
+                                <li>
+                                    <strong>Table:</strong> A collection of
+                                    related data (like a spreadsheet).
+                                </li>
+                                <li>
+                                    <strong>Row (Record):</strong> A single
+                                    entry of data.
+                                </li>
+                                <li>
+                                    <strong>Column (Field):</strong> A specific
+                                    attribute of the data.
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div id="mac" class="os-content active">
-                        <h3>Option 1: Homebrew (Recommended)</h3>
-                        <pre><code>brew install mysql
+                    <div class="card">
+                        <div class="card-header">
+                            INSTALLATION
+                            <span class="tag">SETUP</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="os-tabs">
+                                <div
+                                    class="os-tab active"
+                                    onclick="switchOs('mac', this)"
+                                >
+                                    MacOS
+                                </div>
+                                <div
+                                    class="os-tab"
+                                    onclick="switchOs('win', this)"
+                                >
+                                    Windows
+                                </div>
+                                <div
+                                    class="os-tab"
+                                    onclick="switchOs('linux', this)"
+                                >
+                                    Linux
+                                </div>
+                            </div>
+
+                            <div id="mac" class="os-content active">
+                                <h3>Option 1: Homebrew (Recommended)</h3>
+                                <pre><code>brew install mysql
 brew services start mysql
 mysql_secure_installation</code></pre>
-                        <h3>Option 2: DMG Installer</h3>
-                        <p>Download from <a href="https://dev.mysql.com/downloads/mysql/" target="_blank">mysql.com</a>. Follow the wizard. Remember the root password!</p>
-                    </div>
+                                <h3>Option 2: DMG Installer</h3>
+                                <p>
+                                    Download from
+                                    <a
+                                        href="https://dev.mysql.com/downloads/mysql/"
+                                        target="_blank"
+                                        >mysql.com</a
+                                    >. Follow the wizard. Remember the root
+                                    password!
+                                </p>
+                            </div>
 
-                    <div id="win" class="os-content">
-                        <h3>MySQL Installer (MSI)</h3>
-                        <ol>
-                            <li>Download the <strong>MySQL Installer</strong> from mysql.com.</li>
-                            <li>Run it and choose <strong>"Developer Default"</strong>.</li>
-                            <li>This installs MySQL Server, Workbench, and Shell.</li>
-                            <li>Follow the config wizard. <strong>Write down your root password!</strong></li>
-                        </ol>
-                    </div>
+                            <div id="win" class="os-content">
+                                <h3>MySQL Installer (MSI)</h3>
+                                <ol>
+                                    <li>
+                                        Download the
+                                        <strong>MySQL Installer</strong> from
+                                        mysql.com.
+                                    </li>
+                                    <li>
+                                        Run it and choose
+                                        <strong>"Developer Default"</strong>.
+                                    </li>
+                                    <li>
+                                        This installs MySQL Server, Workbench,
+                                        and Shell.
+                                    </li>
+                                    <li>
+                                        Follow the config wizard.
+                                        <strong
+                                            >Write down your root
+                                            password!</strong
+                                        >
+                                    </li>
+                                </ol>
+                            </div>
 
-                    <div id="linux" class="os-content">
-                        <h3>Ubuntu / Debian</h3>
-                        <pre><code>sudo apt update
+                            <div id="linux" class="os-content">
+                                <h3>Ubuntu / Debian</h3>
+                                <pre><code>sudo apt update
 sudo apt install mysql-server
 sudo mysql_secure_installation
 # Check status
 systemctl status mysql</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            WORKBENCH SETUP
+                            <span class="tag">GUI</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Connecting to your Database</h3>
+                            <p>
+                                MySQL Workbench is a visual tool to manage your
+                                DB without typing CLI commands all day.
+                            </p>
+                            <ol>
+                                <li>Open MySQL Workbench.</li>
+                                <li>
+                                    Click the <strong>(+)</strong> icon next to
+                                    "MySQL Connections".
+                                </li>
+                                <li>
+                                    <strong>Connection Name:</strong> Localhost
+                                </li>
+                                <li>
+                                    <strong>Hostname:</strong> 127.0.0.1
+                                    (default)
+                                </li>
+                                <li><strong>Port:</strong> 3306 (default)</li>
+                                <li><strong>Username:</strong> root</li>
+                                <li>
+                                    Click <strong>"Test Connection"</strong> and
+                                    enter password.
+                                </li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    WORKBENCH SETUP
-                    <span class="tag">GUI</span>
-                </div>
-                <div class="card-body">
-                    <h3>Connecting to your Database</h3>
-                    <p>MySQL Workbench is a visual tool to manage your DB without typing CLI commands all day.</p>
-                    <ol>
-                        <li>Open MySQL Workbench.</li>
-                        <li>Click the <strong>(+)</strong> icon next to "MySQL Connections".</li>
-                        <li><strong>Connection Name:</strong> Localhost</li>
-                        <li><strong>Hostname:</strong> 127.0.0.1 (default)</li>
-                        <li><strong>Port:</strong> 3306 (default)</li>
-                        <li><strong>Username:</strong> root</li>
-                        <li>Click <strong>"Test Connection"</strong> and enter password.</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECTION 1: BASICS -->
-    <div id="basics" class="page-section">
-        <div class="grid">
-            <div class="card danger">
-                <div class="card-header">
-                    CRITICAL FIX (YOUR ISSUE)
-                    <span class="tag">ALTER</span>
-                </div>
-                <div class="card-body">
-                    <h3>How to remove UNIQUE constraint</h3>
-                    <p>The error happened because <code>email</code> had a UNIQUE index. To allow duplicates:</p>
-                    <pre><code>-- 1. Find the index name
+            <!-- SECTION 1: BASICS -->
+            <div id="basics" class="page-section">
+                <div class="grid">
+                    <div class="card danger">
+                        <div class="card-header">
+                            CRITICAL FIX (YOUR ISSUE)
+                            <span class="tag">ALTER</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>How to remove UNIQUE constraint</h3>
+                            <p>
+                                The error happened because
+                                <code>email</code> had a UNIQUE index. To allow
+                                duplicates:
+                            </p>
+                            <pre><code>-- 1. Find the index name
 SHOW INDEX FROM users;
 -- (Look for Key_name, likely 'email')
 
@@ -380,34 +529,34 @@ ALTER TABLE users DROP INDEX email;
 
 -- 3. Ensure column allows NULLs (optional)
 ALTER TABLE users MODIFY COLUMN email VARCHAR(100) NULL;</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">DDL (Structure)</div>
-                <div class="card-body">
-                    <h3>Creating Tables</h3>
-                    <pre><code>CREATE TABLE employees (
+                    <div class="card">
+                        <div class="card-header">DDL (Structure)</div>
+                        <div class="card-body">
+                            <h3>Creating Tables</h3>
+                            <pre><code>CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     salary DECIMAL(10,2) DEFAULT 0.00,
     dept_id INT,
     joined_at DATE
 );</code></pre>
-                    <h3>Modifying Tables</h3>
-                    <pre><code>-- Add column
+                            <h3>Modifying Tables</h3>
+                            <pre><code>-- Add column
 ALTER TABLE employees ADD COLUMN status ENUM('active','inactive');
 
 -- Rename column
 ALTER TABLE employees CHANGE COLUMN name full_name VARCHAR(100);</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">DML (Data)</div>
-                <div class="card-body">
-                    <h3>CRUD Operations</h3>
-                    <pre><code>-- Create
+                    <div class="card">
+                        <div class="card-header">DML (Data)</div>
+                        <div class="card-body">
+                            <h3>CRUD Operations</h3>
+                            <pre><code>-- Create
 INSERT INTO employees (full_name, salary) VALUES ('Harshit', 90000);
 
 -- Read
@@ -418,65 +567,78 @@ UPDATE employees SET salary = salary + 5000 WHERE id = 1;
 
 -- Delete (Careful!)
 DELETE FROM employees WHERE id = 5;</code></pre>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- SECTION 2: INTERMEDIATE -->
-    <div id="intermediate" class="page-section">
-        <div class="grid">
-            <div class="card purple">
-                <div class="card-header">JOINS VISUALIZED</div>
-                <div class="card-body">
-                    <h3>Understanding Connections</h3>
-                    <p><strong>INNER JOIN:</strong> Overlap only. (Users who HAVE orders)</p>
-                    <pre><code>SELECT u.name, o.amount 
+            <!-- SECTION 2: INTERMEDIATE -->
+            <div id="intermediate" class="page-section">
+                <div class="grid">
+                    <div class="card purple">
+                        <div class="card-header">JOINS VISUALIZED</div>
+                        <div class="card-body">
+                            <h3>Understanding Connections</h3>
+                            <p>
+                                <strong>INNER JOIN:</strong> Overlap only.
+                                (Users who HAVE orders)
+                            </p>
+                            <pre><code>SELECT u.name, o.amount
 FROM users u
 INNER JOIN orders o ON u.id = o.user_id;</code></pre>
 
-                    <p><strong>LEFT JOIN:</strong> All from Left (Users), matches from Right. (All users, even with no orders)</p>
-                    <pre><code>SELECT u.name, o.amount 
+                            <p>
+                                <strong>LEFT JOIN:</strong> All from Left
+                                (Users), matches from Right. (All users, even
+                                with no orders)
+                            </p>
+                            <pre><code>SELECT u.name, o.amount
 FROM users u
 LEFT JOIN orders o ON u.id = o.user_id;</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">AGGREGATION</div>
-                <div class="card-body">
-                    <h3>Group By & Having</h3>
-                    <p>Use <code>WHERE</code> before grouping, <code>HAVING</code> after grouping.</p>
-                    <pre><code>-- Count users per country
+                    <div class="card">
+                        <div class="card-header">AGGREGATION</div>
+                        <div class="card-body">
+                            <h3>Group By & Having</h3>
+                            <p>
+                                Use <code>WHERE</code> before grouping,
+                                <code>HAVING</code> after grouping.
+                            </p>
+                            <pre><code>-- Count users per country
 SELECT country, COUNT(*) as total_users
 FROM users
 GROUP BY country
 HAVING total_users > 100;</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">SUBQUERIES</div>
-                <div class="card-body">
-                    <h3>Query inside a Query</h3>
-                    <pre><code>-- Find users with above average salary
-SELECT name, salary 
-FROM employees 
+                    <div class="card">
+                        <div class="card-header">SUBQUERIES</div>
+                        <div class="card-body">
+                            <h3>Query inside a Query</h3>
+                            <pre><code>-- Find users with above average salary
+SELECT name, salary
+FROM employees
 WHERE salary > (SELECT AVG(salary) FROM employees);</code></pre>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- SECTION 3: ADVANCED -->
-    <div id="advanced" class="page-section">
-        <div class="grid">
-            <div class="card danger">
-                <div class="card-header">TRANSACTIONS (ACID)</div>
-                <div class="card-body">
-                    <h3>All or Nothing</h3>
-                    <p>Critical for payments/banking. Ensures data integrity.</p>
-                    <pre><code>START TRANSACTION;
+            <!-- SECTION 3: ADVANCED -->
+            <div id="advanced" class="page-section">
+                <div class="grid">
+                    <div class="card danger">
+                        <div class="card-header">TRANSACTIONS (ACID)</div>
+                        <div class="card-body">
+                            <h3>All or Nothing</h3>
+                            <p>
+                                Critical for payments/banking. Ensures data
+                                integrity.
+                            </p>
+                            <pre><code>START TRANSACTION;
 
 UPDATE accounts SET balance = balance - 500 WHERE id = 1;
 UPDATE accounts SET balance = balance + 500 WHERE id = 2;
@@ -486,28 +648,36 @@ COMMIT;
 
 -- If error occurs:
 ROLLBACK;</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">INDEXING & PERFORMANCE</div>
-                <div class="card-body">
-                    <h3>Why use Indexes?</h3>
-                    <p>Like a book index. Speeds up reads, slows down writes.</p>
-                    <pre><code>-- Create Index on frequently searched column
+                    <div class="card">
+                        <div class="card-header">INDEXING & PERFORMANCE</div>
+                        <div class="card-body">
+                            <h3>Why use Indexes?</h3>
+                            <p>
+                                Like a book index. Speeds up reads, slows down
+                                writes.
+                            </p>
+                            <pre><code>-- Create Index on frequently searched column
 CREATE INDEX idx_lastname ON users(lastname);
 
 -- Check performance
 EXPLAIN SELECT * FROM users WHERE lastname = 'Tiwari';</code></pre>
-                    <p><em>Tip: Don't index everything. Only columns used in WHERE, JOIN, or ORDER BY.</em></p>
-                </div>
-            </div>
+                            <p>
+                                <em
+                                    >Tip: Don't index everything. Only columns
+                                    used in WHERE, JOIN, or ORDER BY.</em
+                                >
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">STORED PROCEDURES</div>
-                <div class="card-body">
-                    <h3>Reusable Code</h3>
-                    <pre><code>DELIMITER //
+                    <div class="card">
+                        <div class="card-header">STORED PROCEDURES</div>
+                        <div class="card-body">
+                            <h3>Reusable Code</h3>
+                            <pre><code>DELIMITER //
 CREATE PROCEDURE GetHighSalary()
 BEGIN
     SELECT * FROM employees WHERE salary > 100000;
@@ -516,153 +686,252 @@ DELIMITER ;
 
 -- Usage:
 CALL GetHighSalary();</code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECTION 4: INTERVIEW PREP -->
-    <div id="interview" class="page-section">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <h2 style="text-align: center; margin-bottom: 30px; text-decoration: underline;">TOP 10 INTERVIEW QUESTIONS</h2>
-
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">1. What is the difference between DELETE, TRUNCATE, and DROP?</div>
-                <div class="qa-a">
-                    <ul>
-                        <li><strong>DELETE:</strong> DML command. Deletes rows one by one. Can be rolled back. Slower.</li>
-                        <li><strong>TRUNCATE:</strong> DDL command. Resets table (removes all data). Cannot be rolled back easily. Faster. Reset auto_increment.</li>
-                        <li><strong>DROP:</strong> DDL command. Removes the entire table structure and data.</li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">2. Explain ACID properties in a database.</div>
-                <div class="qa-a">
-                    <ul>
-                        <li><strong>Atomicity:</strong> All or nothing (Transaction succeeds completely or fails completely).</li>
-                        <li><strong>Consistency:</strong> Database goes from one valid state to another.</li>
-                        <li><strong>Isolation:</strong> Concurrent transactions don't interfere with each other.</li>
-                        <li><strong>Durability:</strong> Once committed, data stays saved even if power fails.</li>
-                    </ul>
-                </div>
-            </div>
+            <!-- SECTION 4: INTERVIEW PREP -->
+            <div id="interview" class="page-section">
+                <div style="max-width: 800px; margin: 0 auto">
+                    <h2
+                        style="
+                            text-align: center;
+                            margin-bottom: 30px;
+                            text-decoration: underline;
+                        "
+                    >
+                        TOP 10 INTERVIEW QUESTIONS
+                    </h2>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">3. What is Normalization? Why do we do it?</div>
-                <div class="qa-a">
-                    <p>Normalization is the process of organizing data to reduce redundancy and improve data integrity.</p>
-                    <ul>
-                        <li><strong>1NF:</strong> Atomic values (no lists in a cell).</li>
-                        <li><strong>2NF:</strong> No partial dependency (all columns depend on full Primary Key).</li>
-                        <li><strong>3NF:</strong> No transitive dependency (non-key columns don't depend on other non-key columns).</li>
-                    </ul>
-                </div>
-            </div>
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            1. What is the difference between DELETE, TRUNCATE,
+                            and DROP?
+                        </div>
+                        <div class="qa-a">
+                            <ul>
+                                <li>
+                                    <strong>DELETE:</strong> DML command.
+                                    Deletes rows one by one. Can be rolled back.
+                                    Slower.
+                                </li>
+                                <li>
+                                    <strong>TRUNCATE:</strong> DDL command.
+                                    Resets table (removes all data). Cannot be
+                                    rolled back easily. Faster. Reset
+                                    auto_increment.
+                                </li>
+                                <li>
+                                    <strong>DROP:</strong> DDL command. Removes
+                                    the entire table structure and data.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">4. Difference between WHERE and HAVING?</div>
-                <div class="qa-a">
-                    <p><strong>WHERE</strong> filters rows <em>before</em> aggregation (GROUP BY).<br>
-                    <strong>HAVING</strong> filters groups <em>after</em> aggregation.</p>
-                    <pre><code>SELECT city, COUNT(*) FROM users 
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            2. Explain ACID properties in a database.
+                        </div>
+                        <div class="qa-a">
+                            <ul>
+                                <li>
+                                    <strong>Atomicity:</strong> All or nothing
+                                    (Transaction succeeds completely or fails
+                                    completely).
+                                </li>
+                                <li>
+                                    <strong>Consistency:</strong> Database goes
+                                    from one valid state to another.
+                                </li>
+                                <li>
+                                    <strong>Isolation:</strong> Concurrent
+                                    transactions don't interfere with each
+                                    other.
+                                </li>
+                                <li>
+                                    <strong>Durability:</strong> Once committed,
+                                    data stays saved even if power fails.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            3. What is Normalization? Why do we do it?
+                        </div>
+                        <div class="qa-a">
+                            <p>
+                                Normalization is the process of organizing data
+                                to reduce redundancy and improve data integrity.
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>1NF:</strong> Atomic values (no
+                                    lists in a cell).
+                                </li>
+                                <li>
+                                    <strong>2NF:</strong> No partial dependency
+                                    (all columns depend on full Primary Key).
+                                </li>
+                                <li>
+                                    <strong>3NF:</strong> No transitive
+                                    dependency (non-key columns don't depend on
+                                    other non-key columns).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            4. Difference between WHERE and HAVING?
+                        </div>
+                        <div class="qa-a">
+                            <p>
+                                <strong>WHERE</strong> filters rows
+                                <em>before</em> aggregation (GROUP BY).<br />
+                                <strong>HAVING</strong> filters groups
+                                <em>after</em> aggregation.
+                            </p>
+                            <pre><code>SELECT city, COUNT(*) FROM users
 WHERE active = 1      -- Filter rows
-GROUP BY city 
+GROUP BY city
 HAVING COUNT(*) > 5;  -- Filter groups</code></pre>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">5. What is the difference between CHAR and VARCHAR?</div>
-                <div class="qa-a">
-                    <p><strong>CHAR(n):</strong> Fixed length. If you store "Hi" in CHAR(10), it pads with 8 spaces. Faster for fixed length data (Postal codes).</p>
-                    <p><strong>VARCHAR(n):</strong> Variable length. "Hi" takes only 2 characters + length byte. Saves space.</p>
-                </div>
-            </div>
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            5. What is the difference between CHAR and VARCHAR?
+                        </div>
+                        <div class="qa-a">
+                            <p>
+                                <strong>CHAR(n):</strong> Fixed length. If you
+                                store "Hi" in CHAR(10), it pads with 8 spaces.
+                                Faster for fixed length data (Postal codes).
+                            </p>
+                            <p>
+                                <strong>VARCHAR(n):</strong> Variable length.
+                                "Hi" takes only 2 characters + length byte.
+                                Saves space.
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">6. Explain Left Join vs Inner Join.</div>
-                <div class="qa-a">
-                    <p><strong>Inner Join:</strong> Returns only rows where there is a match in BOTH tables.</p>
-                    <p><strong>Left Join:</strong> Returns ALL rows from the left table, and matching rows from the right. If no match, right side is NULL.</p>
-                </div>
-            </div>
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            6. Explain Left Join vs Inner Join.
+                        </div>
+                        <div class="qa-a">
+                            <p>
+                                <strong>Inner Join:</strong> Returns only rows
+                                where there is a match in BOTH tables.
+                            </p>
+                            <p>
+                                <strong>Left Join:</strong> Returns ALL rows
+                                from the left table, and matching rows from the
+                                right. If no match, right side is NULL.
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">7. What is a Primary Key vs Unique Key?</div>
-                <div class="qa-a">
-                    <p><strong>Primary Key:</strong> Uniquely identifies a row. Cannot be NULL. Only one per table.</p>
-                    <p><strong>Unique Key:</strong> Ensures values are unique. Can be NULL (usually). Multiple allowed per table.</p>
-                </div>
-            </div>
-             <div class="qa-box">
-                <div class="qa-q" onclick="toggleQa(this)">8. How do you find the second highest salary?</div>
-                <div class="qa-a">
-                    <pre><code>SELECT MAX(salary) FROM employees 
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            7. What is a Primary Key vs Unique Key?
+                        </div>
+                        <div class="qa-a">
+                            <p>
+                                <strong>Primary Key:</strong> Uniquely
+                                identifies a row. Cannot be NULL. Only one per
+                                table.
+                            </p>
+                            <p>
+                                <strong>Unique Key:</strong> Ensures values are
+                                unique. Can be NULL (usually). Multiple allowed
+                                per table.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="qa-box">
+                        <div class="qa-q" onclick="toggleQa(this)">
+                            8. How do you find the second highest salary?
+                        </div>
+                        <div class="qa-a">
+                            <pre><code>SELECT MAX(salary) FROM employees
 WHERE salary < (SELECT MAX(salary) FROM employees);
 -- OR using LIMIT
-SELECT salary FROM employees 
+SELECT salary FROM employees
 ORDER BY salary DESC LIMIT 1 OFFSET 1;</code></pre>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <footer>
+                <a
+                    href="https://harshittiwari.me"
+                    target="_blank"
+                    class="heart-link"
+                >
+                    Created with ❤️ by Harshit Tiwari
+                </a>
+            </footer>
         </div>
-    </div>
 
-    <footer>
-        <a href="https://harshittiwari.me" target="_blank" class="heart-link">
-            Created with ❤️ by Harshit Tiwari
-        </a>
-    </footer>
+        <script>
+            function showSection(sectionId, btnElement) {
+                // Hide all sections
+                document.querySelectorAll(".page-section").forEach((sec) => {
+                    sec.classList.remove("active-section");
+                });
 
-</div>
+                // Remove active class from buttons
+                document.querySelectorAll(".nav-btn").forEach((btn) => {
+                    btn.classList.remove("active");
+                });
 
-<script>
-    function showSection(sectionId, btnElement) {
-        // Hide all sections
-        document.querySelectorAll('.page-section').forEach(sec => {
-            sec.classList.remove('active-section');
-        });
-        
-        // Remove active class from buttons
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+                // Show selected section
+                document
+                    .getElementById(sectionId)
+                    .classList.add("active-section");
 
-        // Show selected section
-        document.getElementById(sectionId).classList.add('active-section');
-        
-        // Highlight button
-        if(btnElement) {
-            btnElement.classList.add('active');
-        } else {
-            // Fallback if called without element
-            const btns = Array.from(document.querySelectorAll('.nav-btn'));
-            const activeBtn = btns.find(b => b.getAttribute('onclick').includes(sectionId));
-            if(activeBtn) activeBtn.classList.add('active');
-        }
-    }
+                // Highlight button
+                if (btnElement) {
+                    btnElement.classList.add("active");
+                } else {
+                    // Fallback if called without element
+                    const btns = Array.from(
+                        document.querySelectorAll(".nav-btn"),
+                    );
+                    const activeBtn = btns.find((b) =>
+                        b.getAttribute("onclick").includes(sectionId),
+                    );
+                    if (activeBtn) activeBtn.classList.add("active");
+                }
+            }
 
-    function switchOs(osId, tabElement) {
-        // Hide all OS content
-        document.querySelectorAll('.os-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        
-        // Deactivate all tabs
-        document.querySelectorAll('.os-tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        
-        // Show selected OS
-        document.getElementById(osId).classList.add('active');
-        if (tabElement) tabElement.classList.add('active');
-    }
+            function switchOs(osId, tabElement) {
+                // Hide all OS content
+                document.querySelectorAll(".os-content").forEach((content) => {
+                    content.classList.remove("active");
+                });
 
-    function toggleQa(element) {
-        element.parentElement.classList.toggle('open');
-    }
-</script>
+                // Deactivate all tabs
+                document.querySelectorAll(".os-tab").forEach((tab) => {
+                    tab.classList.remove("active");
+                });
 
-</body>
+                // Show selected OS
+                document.getElementById(osId).classList.add("active");
+                if (tabElement) tabElement.classList.add("active");
+            }
+
+            function toggleQa(element) {
+                element.parentElement.classList.toggle("open");
+            }
+        </script>
+    </body>
 </html>
