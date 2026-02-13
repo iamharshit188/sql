@@ -94,6 +94,17 @@
             transform: translate(3px, 3px);
         }
 
+        .coffee-btn {
+            background-color: #FFDD00; /* BMS Yellow */
+            text-decoration: none;
+            color: var(--text);
+            display: inline-block;
+        }
+        
+        .coffee-btn:hover {
+            background-color: #FFEA61;
+        }
+
         /* Content Sections */
         .page-section {
             display: none;
@@ -256,7 +267,7 @@
 <div class="container">
     <header>
         <h1>MySQL Zero to Hero</h1>
-        <p style="font-family: var(--font-mono); font-weight: bold;">Quick Reference</p>
+        <p style="font-family: var(--font-mono); font-weight: bold;">NEO-BRUTALIST EDITION</p>
     </header>
 
     <nav class="nav-bar">
@@ -265,6 +276,7 @@
         <button class="nav-btn" onclick="showSection('intermediate', this)">Intermediate</button>
         <button class="nav-btn" onclick="showSection('advanced', this)">Advanced & Optimization</button>
         <button class="nav-btn" onclick="showSection('interview', this)">Interview Q&A</button>
+        <a href="https://buymeacoffee.com/iamharshit188" target="_blank" class="nav-btn coffee-btn">☕ Buy me a Coffee</a>
     </nav>
 
     <!-- SECTION 0: INTRODUCTION -->
